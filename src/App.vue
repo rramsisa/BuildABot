@@ -1,5 +1,16 @@
 <template>
   <div id="app">
+    <!-- Root Foo: {{rootFoo}}
+    <br />
+    Users Foo: {{usersFoo}}
+    <br />
+    Robots Foo: {{robotsFoo}}
+    <br />
+    <br />
+    Root Getter Foo: {{rootGetterFoo}}
+    <br />
+    Robots Getter Foo: {{robotsGetterFoo}}
+    <br />-->
     <header>
       <nav>
         <ul>
@@ -11,6 +22,10 @@
           </li>
           <li class="nav-item">
             <router-link class="nav-link" :to="{ name: 'Build' }" exact>Build</router-link>
+          </li>
+          <li class="nav-item cart">
+            <router-link class="nav-link" to="/cart" exact>Cart</router-link>
+            <div class="cart-items">{{ cart.length }}</div>
           </li>
         </ul>
       </nav>
@@ -27,8 +42,22 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex';
+
 export default {
   name: 'app',
+  computed: {
+    cart() {
+      return this.$store.state.robots.cart;
+    },
+    ...mapState({
+      rootFoo: 'foo',
+      usersFoo: state => state.users.foo,
+    }),
+    ...mapState('robots', { robotsFoo: 'foo' }),
+    ...mapGetters({ rootGetterFoo: 'foo' }),
+    ...mapGetters('robots', { robotsGetterFoo: 'foo' }),
+  },
 };
 </script>
 
@@ -73,6 +102,11 @@ main {
   color: #2c3e50;
   margin-top: 60px;
 }
+.nav-item.cart {
+  position: relative;
+  margin-left: auto;
+  border-right: none;
+}
 .nav-link {
   text-decoration: none;
   color: inherit;
@@ -90,5 +124,16 @@ main {
   background-color: #aaa;
   width: 100px;
   min-height: 300px;
+}
+.cart-items {
+  position: absolute;
+  top: -5px;
+  right: -9px;
+  font-size: 18px;
+  width: 20px;
+  text-align: center;
+  display: inline-block;
+  border-radius: 100px;
+  background-color: mediumseagreen;
 }
 </style>

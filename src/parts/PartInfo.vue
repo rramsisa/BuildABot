@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import parts from '../data/parts';
+import getPartsMixin from './getPartsMixin.js';
 
 export default {
   name: 'PartInfo',
@@ -19,10 +19,11 @@ export default {
       },
     },
   },
+  mixins: [getPartsMixin],
   computed: {
     part() {
       const { partType, id } = this;
-      return parts[partType].find(part => part.id === +id);
+      return this.parts[partType].find(part => part.id === +id);
     },
   },
 };
